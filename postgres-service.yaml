@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db # As it added as "db" in codebase.
+  labels:
+    name: postgres-service
+    app: demo-voting-app
+spec:
+  #type: ClusterIP (By default if nothing is mention of type, service will always be internal which is clusterIP)
+  ports:
+    - targetPort: 5432
+      port: 5432
+  selector:
+    name: postgres-pod
+    app: demo-voting-app

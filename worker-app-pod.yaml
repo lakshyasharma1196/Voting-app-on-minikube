@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: worker-app-pod
+  labels:
+    name: worker-app-pod
+    app: demo-voting-app
+spec:
+  containers:
+    - name: worker-app
+      image: kodekloud/examplevotingapp_worker:latest
+#   ports:
+#      - containerPort: 80
+# As we know worker app has no services listining, so no port definition is required. 
+# It is not accessing any other pod.

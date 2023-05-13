@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis # As it added as "redis" in codebase.
+  labels:
+    name: redis-service
+    app: demo-voting-app
+spec:
+  #type: ClusterIP (By default if nothing is mention of type, service will always be internal which is clusterIP)
+  ports:
+    - targetPort: 6379
+      port: 6379
+  selector:
+    name: redis-pod
+    app: demo-voting-app
