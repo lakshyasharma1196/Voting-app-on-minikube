@@ -29,19 +29,19 @@ This app is for understading on creating an demo application on kubernetes. We a
 # Deploy all yaml definations related to pods & services
 
 ```
-kubectl apply -f voting-app.yaml
-kubectl appyy -f voting-app-service.yaml
+kubectl apply -f Pod-Defination/voting-app-pod.yaml
+kubectl appyy -f Services/voting-app-service.yaml
 
-kubectl apply -f result-app.yaml
-kubectl appyy -f result-app-service.yaml
+kubectl apply -f Pod-Defination/result-app-pod.yaml
+kubectl appyy -f Services/result-app-service.yaml
 
-kubectl apply -f redis.yaml
-kubectl apply -f redis-service.yaml
+kubectl apply -f Pod-Defination/redis-pod.yaml
+kubectl apply -f Services/redis-service.yaml
 
-kubectl apply -f postgres-db.yaml
-kubectl apply -f postgres-service.yaml
+kubectl apply -f Pod-Defination/postgres-db.yaml
+kubectl apply -f Services/postgres-service.yaml
 
-kubectl apply -f worker-app.yaml
+kubectl apply -f Pod-Defination/worker-app-pod.yaml
 ```
 
 After all this you will check pods and services
@@ -75,8 +75,53 @@ http://192.168.59.102:30005
 ## Note: Deplyoying application as pods comes with chalanges of sacling & rolling updates. So right approach is using deployments.
 
 
+# Using Deployments
 
+1. Create the deployment and services.
+These serivices will be same, if you haven't deleted old one, keep the same. But delete the old pods.
 
+```
+kubectl apply -f Deployment/voting-app-deployment.yaml
 
+kubectl apply -f Deployment/redis-deployment.yaml 
 
+kubectl apply -f Deployment/worker-app-deployment.yaml 
+
+kubectl apply -f Deployment/postgres-db-deployment.yaml 
+
+kubectl apply -f Deployment/result-app-deployment.yaml 
+```
+
+```
+kubectl get all
+
+NAME                                     READY   STATUS             RESTARTS   AGE
+pod/postgres-deploy-6bd6b67f74-wlstr     1/1     Running            0          4m54s
+pod/redis-deploy-7f878dfd46-wwqfg        1/1     Running            0          5m3s
+pod/result-app-deploy-8f446b4-9j4k8      1/1     Running            0          4m40s
+pod/voting-app-deploy-85bfc69b8f-4vqjr   1/1     Running            0          5m40s
+pod/worker-app-deploy-56f699bdd5-s8v6x   0/1     Running       0          4m58s
+
+NAME                     TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+service/db               ClusterIP   10.104.59.77     <none>        5432/TCP       4m29s
+service/redis            ClusterIP   10.109.202.207   <none>        6379/TCP       4m24s
+service/result-service   NodePort    10.104.202.133   <none>        80:30005/TCP   4m14s
+service/voting-service   NodePort    10.105.214.89    <none>        80:30004/TCP   4m20s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/postgres-deploy     1/1     1            1           4m54s
+deployment.apps/redis-deploy        1/1     1            1           5m3s
+deployment.apps/result-app-deploy   1/1     1            1           4m40s
+deployment.apps/voting-app-deploy   1/1     1            1           5m40s
+deployment.apps/worker-app-deploy   1/1     1            1           4m58s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/postgres-deploy-6bd6b67f74     1         1         1       4m54s
+replicaset.apps/redis-deploy-7f878dfd46        1         1         1       5m3s
+replicaset.apps/result-app-deploy-8f446b4      1         1         1       4m40s
+replicaset.apps/voting-app-deploy-85bfc69b8f   1         1         1       5m40s
+replicaset.apps/worker-app-deploy-56f699bdd5   1         1         0       4m58s
+```
+
+You can see new deployments are created, according to then pods are created and replica set is also created. Now we can scale our application and rollout the changes.
 

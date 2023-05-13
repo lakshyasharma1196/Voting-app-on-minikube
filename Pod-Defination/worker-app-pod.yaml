@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
     - name: worker-app
-      image: kodekloud/examplevotingapp_worker:latest
+      image: eesprit/voting-app-worker:latest
 #   ports:
 #      - containerPort: 80
 # As we know worker app has no services listining, so no port definition is required. 
