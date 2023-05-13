@@ -72,7 +72,7 @@ http://192.168.59.102:30005
 
 ```
 
-
+## Note: Deplyoying application as pods comes with chalanges of sacling & rolling updates. So right approach is using deployments.
 
 
 
